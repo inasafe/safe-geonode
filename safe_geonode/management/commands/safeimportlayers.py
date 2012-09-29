@@ -19,7 +19,7 @@
 
 from django.core.management.base import BaseCommand
 from optparse import make_option
-from geonode_safe.storage import save_to_geonode
+from safe_geonode.storage import save_to_geonode
 import traceback
 import datetime
 
@@ -27,7 +27,7 @@ class Command(BaseCommand):
     help = ("Brings a data file or a directory full of data files into a"
             "GeoNode site.  Layers are added to the Django database, the"
             "GeoServer configuration, and the GeoNetwork metadata index.")
-            
+
     args = 'path [path...]'
 
     option_list = BaseCommand.option_list + (
@@ -38,7 +38,7 @@ class Command(BaseCommand):
                 dest='ignore_errors',
                 default=False,
                 help='Stop after any errors are encountered.'),
-            make_option('-k', '--keywords', dest='keywords', default="", 
+            make_option('-k', '--keywords', dest='keywords', default="",
                 help="The default keywords for the imported layer(s). Will be the same for all imported layers if multiple imports are done in one command")
         )
 
@@ -53,7 +53,7 @@ class Command(BaseCommand):
         start = datetime.datetime.now()
         output = []
         for path in args:
-            out = save_to_geonode(path, user=user, ignore_errors=ignore_errors, 
+            out = save_to_geonode(path, user=user, ignore_errors=ignore_errors,
                                   overwrite=overwrite, skip=skip,
                                   keywords=keywords, verbosity=verbosity)
             output.extend(out)

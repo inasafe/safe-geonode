@@ -1,4 +1,4 @@
-recursive-include geonode_safe/static *
-recursive-include geonode_safe/fixtures *
-recursive-include geonode_safe/templates *
-recursive-include geonode_safe/locale *
+recursive-include safe_geonode/static *
+recursive-include safe_geonode/fixtures *
+recursive-include safe_geonode/templates *
+recursive-include safe_geonode/locale *

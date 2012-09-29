@@ -6,7 +6,7 @@ urlpatterns = patterns('',
                            {'template': 'safe/safe.html'},
                            name='calculator'))
 
-urlpatterns += patterns('geonode_safe.views',
+urlpatterns += patterns('safe_geonode.views',
                        url(r'^api/v1/calculate/$', 'calculate', name='safe-calculate'),
                        url(r'^api/v1/questions/$', 'questions', name='safe-questions'),
                        url(r'^api/v1/debug/$', 'debug', name='safe-debug'),

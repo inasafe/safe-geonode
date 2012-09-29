@@ -3,4 +3,4 @@
 *~
 *.swp
 .DS_Store
-geonode_safe.egg-info/
+safe_geonode.egg-info/
