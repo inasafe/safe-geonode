@@ -3,20 +3,20 @@
 import os
 
 from distutils.core import setup
-geonode_safe = __import__('geonode_safe')
+safe_geonode = __import__('safe_geonode')
 
 
 def read(fname):
     return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-    name='geonode-safe',
-    version=geonode_safe.get_version(),
+    name='safe-geonode',
+    version=safe_geonode.get_version(),
     description='GeoNode SAFE plugin',
     long_description=read('README'),
     author='Ariel Núñez',
     author_email='ingenieroariel@gmail.com',
-    url='http://github.com/GFDRR/geonode-safe/',
+    url='http://github.com/safe/safe-geonode/',
     platforms=['any'],
     license='GPLv3',
     zip_safe=False,
@@ -26,8 +26,8 @@ setup(
         'django-leaflet>=0.2.0',    # pip install django-leaflet
         'pygments',                 # pip install pygments
     ],
-    packages = ['geonode_safe',],
-    package_data = {'geonode_safe': ['geonode_safe/templates/*', 'geonode_safe/locale']},
+    packages = ['safe_geonode',],
+    package_data = {'safe_geonode': ['safe_geonode/templates/*', 'safe_geonode/locale']},
     scripts = [],
     classifiers = [
         'Development Status :: 2 - Pre-Alpha',

@@ -15,17 +15,17 @@ import logging
 
 from zipfile import ZipFile
 
-from geonode_safe.utilities import LAYER_TYPES
-from geonode_safe.utilities import WCS_TEMPLATE
-from geonode_safe.utilities import WFS_TEMPLATE
-from geonode_safe.utilities import extract_WGS84_geotransform
-from geonode_safe.utilities import is_sequence
-from geonode_safe.utilities import unique_filename
-from geonode_safe.utilities import write_keywords
-from geonode_safe.utilities import geotransform2resolution
-from geonode_safe.utilities import get_bounding_box
-from geonode_safe.utilities import bboxlist2string
-from geonode_safe.utilities import check_bbox_string
+from safe_geonode.utilities import LAYER_TYPES
+from safe_geonode.utilities import WCS_TEMPLATE
+from safe_geonode.utilities import WFS_TEMPLATE
+from safe_geonode.utilities import extract_WGS84_geotransform
+from safe_geonode.utilities import is_sequence
+from safe_geonode.utilities import unique_filename
+from safe_geonode.utilities import write_keywords
+from safe_geonode.utilities import geotransform2resolution
+from safe_geonode.utilities import get_bounding_box
+from safe_geonode.utilities import bboxlist2string
+from safe_geonode.utilities import check_bbox_string
 
 # Do we really need to import these objects? should they be part of the API?
 from safe.storage.vector import Vector

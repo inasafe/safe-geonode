@@ -1,4 +1,4 @@
-"""Utilities for geonode_safe
+"""Utilities for safe_geonode
 """
 
 import os

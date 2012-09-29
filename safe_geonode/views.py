@@ -27,13 +27,13 @@ import sys
 import inspect
 import datetime
 
-from geonode_safe.storage import download
-from geonode_safe.storage import get_metadata
-from geonode_safe.storage import save_file_to_geonode
-from geonode_safe.models import Calculation, Workspace
-from geonode_safe.utilities import bboxlist2string
-from geonode_safe.utilities import titelize
-from geonode_safe.utilities import get_common_resolution, get_bounding_boxes
+from safe_geonode.storage import download
+from safe_geonode.storage import get_metadata
+from safe_geonode.storage import save_file_to_geonode
+from safe_geonode.models import Calculation, Workspace
+from safe_geonode.utilities import bboxlist2string
+from safe_geonode.utilities import titelize
+from safe_geonode.utilities import get_common_resolution, get_bounding_boxes
 
 from safe.api import get_admissible_plugins
 from safe.api import calculate_impact
@@ -149,7 +149,7 @@ def calculate(request, save_output=save_file_to_geonode):
         msg = ('Could not find "%s" in "%s"' % (
                  impact_function_name, plugins.keys()))
         assert impact_function_name in plugins, msg
-  
+
         impact_function = plugins.get(impact_function_name)
         impact_function_source = inspect.getsource(impact_function)
 
@@ -226,7 +226,7 @@ def calculate(request, save_output=save_file_to_geonode):
     links_dict = {}
 
     for item in links:
-        links_dict[item.name] = {'url': item.url, 
+        links_dict[item.name] = {'url': item.url,
                            'link_type': item.link_type,
                            'extension': item.extension
                           }
@@ -301,7 +301,7 @@ def questions(request):
     admissible_plugins = get_admissible_plugins()
     for name, f in admissible_plugins.items():
         functions[name] = {'doc': f.__doc__,
-                            } 
+                            }
         for key in ['author', 'title', 'rating']:
             if hasattr(f, key):
                 functions[name][key] = getattr(f, key)
@@ -327,9 +327,9 @@ def questions(request):
         for exposure in exposures:
             hazard_keywords = layers[hazard]['keywords']
             exposure_keywords = layers[exposure]['keywords']
-            
-            hazard_keywords['layertype'] = layers[hazard]['layertype']            
-            exposure_keywords['layertype'] = layers[exposure]['layertype']            
+
+            hazard_keywords['layertype'] = layers[hazard]['layertype']
+            exposure_keywords['layertype'] = layers[exposure]['layertype']
 
             keywords = [hazard_keywords, exposure_keywords]
             plugins = get_admissible_plugins(keywords=keywords)

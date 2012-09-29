@@ -1,5 +1,5 @@
 from django.contrib import admin
-from geonode_safe.models import Calculation, Server, Workspace
+from safe_geonode.models import Calculation, Server, Workspace
 
 
 class CalculationAdmin(admin.ModelAdmin):

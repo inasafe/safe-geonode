@@ -4,7 +4,7 @@ from django.core.management import call_command
 from django.test import LiveServerTestCase
 from safe.common.testing import UNITDATA
 from gisdata import BAD_DATA
-from geonode_safe import get_version
+from safe_geonode import get_version
 
 class CommandsTestCase(LiveServerTestCase):
 

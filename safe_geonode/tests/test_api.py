@@ -5,18 +5,18 @@ import unittest
 import warnings
 import time
 
-from geonode_safe.views import calculate
-from geonode_safe.storage import save_file_to_geonode as save_to_geonode
-from geonode_safe.storage import check_layer
-from geonode_safe.storage import assert_bounding_box_matches
-from geonode_safe.storage import download
-from geonode_safe.storage import read_layer
-from geonode_safe.storage import get_metadata
-from geonode_safe.storage import get_bounding_box
-from geonode_safe.utilities import get_bounding_box_string
-from geonode_safe.utilities import nanallclose
-from geonode_safe.utilities import compatible_layers
-from geonode_safe.tests.utilities import TESTDATA, INTERNAL_SERVER_URL
+from safe_geonode.views import calculate
+from safe_geonode.storage import save_file_to_geonode as save_to_geonode
+from safe_geonode.storage import check_layer
+from safe_geonode.storage import assert_bounding_box_matches
+from safe_geonode.storage import download
+from safe_geonode.storage import read_layer
+from safe_geonode.storage import get_metadata
+from safe_geonode.storage import get_bounding_box
+from safe_geonode.utilities import get_bounding_box_string
+from safe_geonode.utilities import nanallclose
+from safe_geonode.utilities import compatible_layers
+from safe_geonode.tests.utilities import TESTDATA, INTERNAL_SERVER_URL
 
 from geonode.layers.utils import get_valid_user, check_geonode_is_up
 

@@ -7,18 +7,18 @@ import tempfile
 import datetime
 import gisdata
 
-from geonode_safe.storage import save_file_to_geonode as save_to_geonode
-from geonode_safe.storage import RisikoException
-from geonode_safe.storage import check_layer, assert_bounding_box_matches
-from geonode_safe.storage import get_bounding_box
-from geonode_safe.storage import download, get_metadata
-from geonode_safe.storage import read_layer
-from geonode_safe.utilities import get_bounding_box_string
-from geonode_safe.utilities import bboxstring2list
-from geonode_safe.utilities import unique_filename, LAYER_TYPES
-from geonode_safe.utilities import nanallclose
-from geonode_safe.tests.utilities import TESTDATA, INTERNAL_SERVER_URL
-from geonode_safe.tests.utilities import get_web_page
+from safe_geonode.storage import save_file_to_geonode as save_to_geonode
+from safe_geonode.storage import RisikoException
+from safe_geonode.storage import check_layer, assert_bounding_box_matches
+from safe_geonode.storage import get_bounding_box
+from safe_geonode.storage import download, get_metadata
+from safe_geonode.storage import read_layer
+from safe_geonode.utilities import get_bounding_box_string
+from safe_geonode.utilities import bboxstring2list
+from safe_geonode.utilities import unique_filename, LAYER_TYPES
+from safe_geonode.utilities import nanallclose
+from safe_geonode.tests.utilities import TESTDATA, INTERNAL_SERVER_URL
+from safe_geonode.tests.utilities import get_web_page
 
 from safe.common.testing import UNITDATA
 from safe.impact_functions.core import get_admissible_plugins
