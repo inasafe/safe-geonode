@@ -6,7 +6,6 @@ var hazard_layer = undefined;
 var exposure_layer = undefined;
 
 var map = undefined;
-var control = undefined;
 
 var result = undefined;
 
@@ -14,7 +13,7 @@ $("#reset").click(function() {
     safe_init();
     map.fitWorld();
     $("#result").css("display", "none"); 
-    $("#leftpanel").css("display", "none"); 
+    $("#reset").css("display", "none"); 
     $(".barlittle").css("display", "none");
     $("#answermark").css("display", "none");
     $("#answer").animate({height:"0px"},400);
@@ -22,13 +21,33 @@ $("#reset").click(function() {
     $('#exposurelist').html('');
     $('#hazardlist').html('');
     $(".leaflet-bottom").css("bottom", "70px");
+
+    remove_layers();
 });
 
-function add_hazard_layer(layer_name){
-    if (hazard_layer !== undefined){
-        map.removeLayer(hazard_layer);
-    }
+function remove_layers(){
+    remove_hazard();
+    remove_exposure();
+}
 
+function remove_exposure(){
+    if (exposure_layer !== undefined){
+        if (map.hasLayer(exposure_layer)){
+            map.removeLayer(exposure_layer);
+        }
+    }    
+}
+
+function remove_hazard(){
+    if (hazard_layer !== undefined){
+        if (map.hasLayer(hazard_layer)){
+            map.removeLayer(hazard_layer);
+        }
+    }    
+}
+
+function add_hazard_layer(layer_name){
+    remove_hazard();
     layer = layers[layer_name];
     hazard_layer = L.tileLayer(layer.tile_url);
     hazard_layer.setOpacity(0.6);
@@ -44,25 +63,21 @@ function add_hazard_layer(layer_name){
     var center = [(bbox[1]+bbox[3])/2, (bbox[0]+ bbox[2])/2];
     map.setView(center, zoom);
     map.fitBounds(bounds);
-    control.addOverlay(hazard_layer, 'hazard');
 }
 
 function add_exposure_layer(layer_name){
-    if (exposure_layer !== undefined){
-        map.removeLayer(exposure_layer);
-    }
+    remove_exposure();
 
     layer = layers[layer_name];
     exposure_layer = L.tileLayer(layer.tile_url);
     exposure_layer.setOpacity(0.5);
     exposure_layer.addTo(map);
-    control.addOverlay(exposure_layer, 'exposure');
-
 }
 
 function calculation_error(data){ 
+    $(".barlittle").css("display", "none");
     $("#result").css("display", "inline");
-    $("#leftpanel").css("display", "inline");
+    $("#reset").css("display", "inline");
     output = "<div class=\"alert alert-error\">" +
                 "<a class=\"close\" data-dismiss=\"alert\">×</a>" +
                 "<h1>Calculation Failed</h1>" +
@@ -108,22 +123,32 @@ function get_options(items){
     return options;
 };
 
-
-function showCaption(caption){
-    var output = '<div>' + caption + '</div>';
-    var resultPanel = $(".result").html(output);
+function add_result_layer(layer){
+    remove_layers();
+    result_layer = L.tileLayer(layer.tile_url);
+    result_layer.setOpacity(0.6);
+    result_layer.addTo(map);
 }
 
 function received(data) {
     $(".barlittle").css("display", "none");
-    $("#leftpanel").css("display", "inline");
+    $("#reset").css("display", "inline");
+
     if (data.errors !== null){
         calculation_error(data);
         return;
     }
+
     result = data;
     $("#result").css("display", "inline");
     $("#result").addClass('well');
+
+    // Set caption for title
+    $("#result > .page-header > h1").html(result.layer.title + " <small> by " + layers[result['hazard_layer']]['title'] + "</small>");
+
+    // Add result layer
+    add_result_layer(result.layer);
+
     //$("#result").html(result.caption);
 };
 
@@ -242,21 +267,6 @@ function safe_init(){
 function safemapInit(map, bounds){
     // Add attribution (to replace, Powered by Leaflet)
     map.attributionControl.setPrefix('Powered by MapBox Streets and OSM data');
-
-    map.removeLayer('background');
-
-    var mapbox_streets = L.tileLayer('http://{s}.tiles.mapbox.com/v3/mapbox.mapbox-streets/{z}/{x}/{y}.png')
-
-    var baseMaps = {
-        "MapBox Streets": mapbox_streets,
-    };
-
-    var overlayMaps = {
-    };
-
-    // Add a layer control object, to turn layers off and on
-    control = L.control.layers(baseMaps, overlayMaps);
-    control.addTo(map);
 
     // Initialize safe forms
     safe_init();

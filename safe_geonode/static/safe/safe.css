@@ -87,8 +87,9 @@ footer {
 }
 
 
-#leftpanel {
-    display: none;
+#reset {
+    margin-top: 10px;
+    margin-left: 10px;
 }
 
 #main{

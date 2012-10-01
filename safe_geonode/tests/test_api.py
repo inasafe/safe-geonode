@@ -136,10 +136,11 @@ class TestApi(LiveServerTestCase):
         assert data['success']
 
         # Download result and check
-        layer_name = data['layer'].split('/')[-1]
+        layer = data['layer']
+        layer_id = layer['id']
 
         result_layer = download(INTERNAL_SERVER_URL,
-                                layer_name,
+                                layer_id,
                                 get_bounding_box_string(hazard_filename))
         assert os.path.exists(result_layer.filename)
 

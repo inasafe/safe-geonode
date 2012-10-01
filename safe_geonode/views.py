@@ -200,9 +200,6 @@ def calculate(request, save_output=save_file_to_geonode):
         jsondata = json.dumps({'errors': errors, 'stacktrace': trace})
         return HttpResponse(jsondata, mimetype='application/json')
 
-    msg = ('- Result available at %s.' % result.get_absolute_url())
-    #logger.info(msg)
-
     calculation.layer = urljoin(settings.SITEURL, result.get_absolute_url())
     calculation.success = True
     calculation.save()
@@ -214,7 +211,7 @@ def calculate(request, save_output=save_file_to_geonode):
     output['run_date'] = 'new Date("%s")' % calculation.run_date
 
     # FIXME: This should not be needed in an ideal world
-    ows_server_url = settings.GEOSERVER_BASE_URL + 'ows',
+    ows_server_url = settings.GEOSERVER_BASE_URL + 'ows'
     output['ows_server_url'] = ows_server_url
 
     # json.dumps does not like django users
@@ -233,6 +230,9 @@ def calculate(request, save_output=save_file_to_geonode):
 
     output['links'] = links_dict
 
+    layer = get_metadata(ows_server_url, layer_name=result.typename)
+    output['layer'] = layer
+ 
     output['caption'] = 'Calculation finished ' \
                             'in %s' % calculation.run_duration
 
