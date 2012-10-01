@@ -15,7 +15,6 @@ from safe_geonode.storage import get_metadata
 from safe_geonode.storage import get_bounding_box
 from safe_geonode.utilities import get_bounding_box_string
 from safe_geonode.utilities import nanallclose
-from safe_geonode.utilities import compatible_layers
 from safe_geonode.tests.utilities import TESTDATA, INTERNAL_SERVER_URL
 
 from geonode.layers.utils import get_valid_user, check_geonode_is_up
@@ -581,7 +580,7 @@ class TestApi(LiveServerTestCase):
         """
 
         c = Client()
-        functions_url = reverse('safe-functions')
+        functions_url = reverse('safe-questions')
         rv = c.get(functions_url)
         self.assertEqual(rv.status_code, 200)
         self.assertEqual(rv['Content-Type'], 'application/json')
@@ -592,20 +591,12 @@ class TestApi(LiveServerTestCase):
         assert 'functions' in data, msg
         functions = data['functions']
 
+        assert 'layers' in data
+        assert 'questions' in data
+
         msg = ('No functions were found in the functions list, '
                'not even the built-in ones')
         assert len(functions) > 0, msg
-
-    def test_layers(self):
-        """Layers can be retrieved from the HTTP Rest API
-        """
-
-        c = Client()
-        layers_url = reverse('safe-layers')
-        rv = c.get(layers_url)
-        self.assertEqual(rv.status_code, 200)
-        self.assertEqual(rv['Content-Type'], 'application/json')
-        data = json.loads(rv.content)
 
 
     def test_plugin_selection(self):
@@ -615,7 +606,7 @@ class TestApi(LiveServerTestCase):
                  'topp:buildings_osm_4326',
                  {'layertype': 'vector',
                   'category': 'exposure',
-                  'subcategory': 'building',
+                  'subcategory': 'structure',
                   'title': 'buildings_osm_4326',
                   'datatype': 'osm',
                   'purpose': 'dki'
@@ -644,10 +635,6 @@ class TestApi(LiveServerTestCase):
         hazard_compatible = requirements_met(requirements, hazard_params)
         assert hazard_compatible
 
-        compatible = compatible_layers(FloodBuildingImpactFunction, layers)
-
-        assert exposure_name in compatible
-        assert hazard_name in compatible
 
     def test_plugin_selection_http(self):
         """Verify the plugins can recognize compatible layers (HTTP).
@@ -681,30 +668,33 @@ class TestApi(LiveServerTestCase):
         assert 'subcategory:flood' in hazard_keywords
 
         assert 'category:exposure' in exposure_keywords
-        assert 'subcategory:building' in exposure_keywords
+        assert 'subcategory:structure' in exposure_keywords
 
         c = Client()
-        functions_url = reverse('safe-functions')
+        functions_url = reverse('safe-questions')
         rv = c.get(functions_url)
 
         self.assertEqual(rv.status_code, 200)
         self.assertEqual(rv['Content-Type'], 'application/json')
         data = json.loads(rv.content)
 
-        assert 'functions' in data
+        assert 'questions' in data
 
-        functions = data['functions']
+        questions = data['questions']
+        found_it = False
+        function_name = 'Flood Building Impact Function'
 
-        for function in functions:
-            if function['name'] == 'Flood Building Impact Function':
-                layers = function['layers']
+        for question in questions:
+            function = question['function']
+            hazard = question['hazard']
+            exposure = question['exposure']
 
-                msg_tmpl = 'Expected layer %s in list of compatible layers: %s'
+            if function == function_name:
+                if hazard == hazard_layer.typename:
+                    if exposure == exposure_layer.typename:
+                        found_it = True
 
-                hazard_msg = msg_tmpl % (hazard_layer.typename, layers)
-                assert hazard_layer.typename in layers, hazard_msg
-
-                exposure_msg = msg_tmpl % (exposure_layer.typename, layers)
-                assert exposure_layer.typename in layers, exposure_msg
-
-
+        msg = ('Expected to find %s, %s and %s in questions: %s' % (
+            hazard_layer.typename, exposure_layer.typename,
+            function_name, questions))
+        assert found_it, msg
