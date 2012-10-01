@@ -14,7 +14,7 @@ class CommandsTestCase(LiveServerTestCase):
         "Test safeimportlayers with good data."
         layer = os.path.join(UNITDATA, 'hazard', 'jakarta_flood_design.tif')
         args = [layer]
-        opts = {}
+        opts = {'verbosity': 0}
         call_command('safeimportlayers', *args, **opts)
 
         # FIXME(Ariel): Implement some asserts
@@ -22,7 +22,7 @@ class CommandsTestCase(LiveServerTestCase):
     def test_error_safeimportlayers(self):
         "Test safeimportlayers with bad data."
         args = [BAD_DATA]
-        opts = {'verbosity': 3, 'ignore_errors': True}
+        opts = {'verbosity': 0, 'ignore_errors': True}
         call_command('safeimportlayers', *args, **opts)
 
     def test_version(self):

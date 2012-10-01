@@ -694,7 +694,7 @@ def save_file_to_geonode(filename, user=None, title=None,
 
 def save_to_geonode(incoming, user=None, title=None,
                     overwrite=True, check_metadata=True,
-                    keywords=[], verbosity=1, console=sys.stdout,
+                    keywords=[], verbosity=1, console=None,
                     ignore_errors=True,
                     skip=False, ignore=None):
     """Save a files to local Risiko GeoNode
@@ -720,6 +720,10 @@ def save_to_geonode(incoming, user=None, title=None,
     msg = ('First argument to save_to_geonode must be a string. '
            'I got %s' % incoming)
     assert isinstance(incoming, basestring), msg
+
+    # Redirect to /dev/null if console is not set.
+    if console is None:
+        console = open(os.devnull, 'w')
 
     potential_files = []
     if os.path.isfile(incoming):
@@ -783,7 +787,7 @@ def save_to_geonode(incoming, user=None, title=None,
                 else:
                     if verbosity > 0:
                         msg = "Stopping process because --ignore-errors was not set and an error was found."
-                        print >> sys.stderr, msg
+                        print >> console, msg
                         raise Exception('Failed to process %s' % filename, e), None, sys.exc_info()[2]
 
         msg = "[%s] Layer for '%s' (%d/%d)" % (status, filename, i+1, number)

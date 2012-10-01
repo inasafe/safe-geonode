@@ -22,6 +22,8 @@ from optparse import make_option
 from safe_geonode.storage import save_to_geonode
 import traceback
 import datetime
+import sys
+
 
 class Command(BaseCommand):
     help = ("Brings a data file or a directory full of data files into a"
@@ -52,10 +54,17 @@ class Command(BaseCommand):
         keywords = options.get('keywords').split()
         start = datetime.datetime.now()
         output = []
+
+        if verbosity > 0:
+            console = sys.stdout
+        else:
+            console = None
+
         for path in args:
             out = save_to_geonode(path, user=user, ignore_errors=ignore_errors,
                                   overwrite=overwrite, skip=skip,
-                                  keywords=keywords, verbosity=verbosity)
+                                  keywords=keywords, verbosity=verbosity,
+                                  console=console)
             output.extend(out)
 
         updated = [dict_['file'] for dict_ in output if dict_['status']=='updated']
