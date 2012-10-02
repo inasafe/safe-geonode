@@ -6,10 +6,13 @@ var hazard_layer = undefined;
 var exposure_layer = undefined;
 
 var map = undefined;
-
 var result = undefined;
 
+var markers = undefined;
+
 $("#reset").click(function() {
+    remove_exposure();
+    remove_hazard();
     safe_init();
     map.fitWorld();
     $("#result").css("display", "none"); 
@@ -21,14 +24,8 @@ $("#reset").click(function() {
     $('#exposurelist').html('');
     $('#hazardlist').html('');
     $(".leaflet-bottom").css("bottom", "70px");
-
-    remove_layers();
 });
 
-function remove_layers(){
-    remove_hazard();
-    remove_exposure();
-}
 
 function remove_exposure(){
     if (exposure_layer !== undefined){
@@ -47,10 +44,9 @@ function remove_hazard(){
 }
 
 function add_hazard_layer(layer_name){
-    remove_hazard();
     layer = layers[layer_name];
     hazard_layer = L.tileLayer(layer.tile_url);
-    hazard_layer.setOpacity(0.6);
+    hazard_layer.setOpacity(0.8);
     hazard_layer.addTo(map);
 
     // Center the map on the extent of the hazard layer
@@ -66,8 +62,6 @@ function add_hazard_layer(layer_name){
 }
 
 function add_exposure_layer(layer_name){
-    remove_exposure();
-
     layer = layers[layer_name];
     exposure_layer = L.tileLayer(layer.tile_url);
     exposure_layer.setOpacity(0.5);
@@ -91,16 +85,16 @@ function calculate(hazard_name, exposure_name, function_name) {
         var maxll= bounds.getNorthEast();
         var bbox = ''+minll.lng+','+minll.lat+','+maxll.lng+','+maxll.lat;
 
-        hazard_layer = layers[hazard_name]
-        exposure_layer = layers[exposure_name]
+        the_hazard = layers[hazard_name]
+        the_exposure = layers[exposure_name]
 
         $.ajax({
             type: 'POST',
             url: '/safe/api/v1/calculate/',
             data: {
-                hazard_server: hazard_layer.server_url,
+                hazard_server: the_hazard.server_url,
                 hazard: hazard_name,
-                exposure_server: exposure_layer.server_url,
+                exposure_server: the_exposure.server_url,
                 exposure: exposure_name,
                 bbox: bbox,
                 keywords: 'safe',
@@ -123,16 +117,10 @@ function get_options(items){
     return options;
 };
 
-function add_result_layer(layer){
-    remove_layers();
-    result_layer = L.tileLayer(layer.tile_url);
-    result_layer.setOpacity(0.6);
-    result_layer.addTo(map);
-}
-
 function received(data) {
     $(".barlittle").css("display", "none");
     $("#reset").css("display", "inline");
+    $("#calculation").css("display", "inline");
 
     if (data.errors !== null){
         calculation_error(data);
@@ -143,13 +131,39 @@ function received(data) {
     $("#result").css("display", "inline");
     $("#result").addClass('well');
 
+    markers = new L.MarkerClusterGroup();
+
+    var inundated = 0;
+    for (var i=0; i < result.raw.data.length; i++){
+
+        var it = result.raw.data[i];
+        var point = result.raw.geometry[i];
+        if (it.INUNDATED==true){
+            title = 'OSM Id: ' + it.osm_id;
+            var marker = new L.Marker(new L.LatLng(point[1], point[0]),  { title: title });
+            marker.bindPopup(title);
+            markers.addLayer(marker);
+            inundated ++;
+        }
+    }
+
+    map.addLayer(markers);
+
+    var total = result.raw.data.length;
+
     // Set caption for title
-    $("#result > .page-header > h1").html(result.layer.title + " <small> by " + layers[result['hazard_layer']]['title'] + "</small>");
+    $("#calculation > .page-header > h1").html(inundated + " buildings" + 
+                                    " <small>would have to be closed from a total of " +
+                                    total + "</small>");
 
-    // Add result layer
-    add_result_layer(result.layer);
+    $("#result > #summary > p").html(result.raw.summary);
 
-    //$("#result").html(result.caption);
+    table_rows = $("#result p table tbody tr");
+
+    $('#duration').html(result.run_duration + ' seconds')
+
+    run_date = result.run_date.split('.')[0].split('("')[1];
+    $('#date').html(run_date)
 };
 
 function_change = function(r){

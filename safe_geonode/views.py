@@ -218,6 +218,18 @@ def calculate(request, save_output=save_file_to_geonode):
     output['user'] = calculation.user.username
     output['pretty_function_source'] = calculation.pretty_function_source()
 
+    geometry = []
+    for item in impact_file.geometry:
+        geometry.append(item.tolist())
+
+    raw = { 'name': impact_file.name,
+            'geometry': geometry,
+            'style_info': impact_file.style_info,
+            'summary': impact_file.keywords['impact_summary'],
+            'data': impact_file.data,
+            }
+    output['raw'] = raw
+
     links = result.link_set.all()
 
     links_dict = {}
@@ -273,7 +285,7 @@ def debug(request):
     return HttpResponse(jsondata, mimetype='application/json')
 
 
-@cache_page(60 * 15)
+#@cache_page(60 * 15)
 def questions(request):
     """Get a list of all the questions, layers and functions
 

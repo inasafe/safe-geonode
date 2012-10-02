@@ -8,7 +8,10 @@
 {% block head %}
   {{ block.super }}
   {% leaflet_css %}
-  <link href="{{ STATIC_URL }}safe/safe.css" rel="stylesheet">
+  <link href="{{ STATIC_URL }}safe/css/safe.css" rel="stylesheet">
+  <link href="{{ STATIC_URL }}safe/css/syntax.css" rel="stylesheet">
+  <link href="{{ STATIC_URL }}safe/css/MarkerCluster.css"  rel="stylesheet" />
+  <link href="{{ STATIC_URL }}safe/css/MarkerCluster.Default.css" rel="stylesheet" />
 {% endblock %}
 
 <!-- Le html -->
@@ -48,17 +51,34 @@
         <a id="reset" style="display:none" class="btn">Ask again</a>
 
       </div>
-      <div id="result" class="span10">
-          <div class="page-header">
-            <h1>Impact assesment <small></small></h1>
+      <div id="result" class="span6">
+         <h2>Summary and next actions</h2>
+          <div id="summary">
+            <p></p>
           </div>
       </div>
-    </div>
+      <div id="calculation" class="span4">
+         <div class="page-header">
+            <h1>Impact assesment <small>calculation result</small></h1>
+          </div>
+        <dl class="dl-horizontal">
+          <dt>Running time</dt>
+          <dd id="duration">seconds</dd>
+          <dt>Running date</dt>
+          <dd id="date"></dd>
+          <dt>Author</dt>
+          <dd>AIFDR</dd>
+          <dt>Confidence rating</dt>
+          <dd>low (20%)</dd>
+        </dl>
+      </div>
+  </div>
   </div>
 {% endblock footer %}
 
 <!-- Le Javascript -->
 {% block extra_script %}
 {% leaflet_js %}
-<script src="{{STATIC_URL}}/safe/safe.js" />
+<script src="{{ STATIC_URL }}safe/js/markercluster.js" ></script>
+<script src="{{ STATIC_URL }}safe/js/safe.js" ></script>
 {% endblock extra_script %}
