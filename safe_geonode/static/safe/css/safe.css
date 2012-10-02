@@ -6,13 +6,14 @@
 .safeform > label {
 	display: inline-block;
     vertical-align: middle;
-    font-size: 18px;
+    font-size: 18px !important;
     font-weight: bold;
     color:white;
 }
 
 .safeform > select {
     vertical-align: middle;
+    width: 200px;
 }
 
 #questionmark {
@@ -21,31 +22,37 @@
 
 #branding{
     color: white;
-    padding-right: 20px;
-    padding-left: 20px;
+    position: absolute;
+    left: 10px;
 }
 
 #branding > p {
     font-size: 10px;
     display:inline-block;
     text-align: left;
-    margin-left: 5px;
-    line-height: 14px;
+    line-height: 10px;
+    margin-top: -10px;
 }
 
 #branding > h2 {
 	font-size: 30px;
-	display:inline-block;
+    color: white;
+    vertical-align: top;
+    margin-bottom: 0px !important;
+    margin-top: -14px !important;
 }
+
+
 
 .leaflet-container {  /* all maps */
     width:  100%;
     height: 100%;
-    position: absolute;
-    bottom: 0px;
+    position:absolute;
+    bottom:0px;
 }
 
-footer {
+footer.footer {
+    background: none repeat scroll 0 0 black;
     margin-top: 0px;
     border-top: 5px solid black;
     padding-top: 8px;
@@ -63,12 +70,11 @@ footer {
 }
 
 .leaflet-top {
-    top: 60px;
+    top: 80px;
 }
 
 #answer {
     height: 0px;
-    overflow: scroll;
     max-height: 300px;
 }
 
@@ -79,6 +85,11 @@ footer {
 #result {
     display: none;
     margin-top: 10px;
+}
+
+#result > .alert {
+    overflow: auto;
+
 }
 
 #result {
@@ -97,6 +108,15 @@ footer {
 #calculation {
     display:none;
     margin-top: 10px;
+}
+
+#summary li {
+    font-size: 15px;
+    line-height: 22px;
+}
+
+.navbar-fixed-top {
+    opacity: 0.9;
 }
 
 .barlittle {

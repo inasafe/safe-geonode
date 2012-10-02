@@ -15,12 +15,13 @@
 {% endblock %}
 
 <!-- Le html -->
-{% block body_outer %}
+{% block middle %}
   {% leaflet_map "safemap" %}
-{% endblock body_outer %}
+{% endblock middle %}
 
 {% block footer %}
   <div id="question">
+
     <div id="branding" class="pull-left">
       <h2>SAFE</h2>
       <p>Scenario Assesment<br>For Emergencies</p>
@@ -32,7 +33,7 @@
       <select class="input" name="hazard" id="hazardlist"></select>
       <label id="exposurelabel" for="exposure">how many</label> 
       <select class="input" name="exposure"  id="exposurelist"></select>
-      <label id="functionlabel" for="function">would</label> 
+      <label id="functionlabel" for="function">might</label> 
       <select class="input" name="function" id="functionlist"></select>
       <img id="questionmark" height='30px' src="{{ STATIC_URL }}safe/img/question.svg" />
     </form>
@@ -51,8 +52,8 @@
         <a id="reset" style="display:none" class="btn">Ask again</a>
 
       </div>
-      <div id="result" class="span6">
-         <h2>Summary and next actions</h2>
+      <div id="result" class="span5">
+         <h2>Action Checklist</h2>
           <div id="summary">
             <p></p>
           </div>

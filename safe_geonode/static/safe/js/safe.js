@@ -19,7 +19,7 @@ $("#reset").click(function() {
     $("#reset").css("display", "none"); 
     $(".barlittle").css("display", "none");
     $("#answermark").css("display", "none");
-    $("#answer").animate({height:"0px"},400);
+    $("#answer").animate({height:"0px"},420);
     $('#functionlist').html('');
     $('#exposurelist').html('');
     $('#hazardlist').html('');
@@ -159,6 +159,23 @@ function received(data) {
     $("#result > #summary > p").html(result.raw.summary);
 
     table_rows = $("#result p table tbody tr");
+
+    actions = []
+
+    for (var i=5; i < 10; i++){
+        action = $("#result p table tbody tr:nth-child(" + i +") td").html();
+        actions.push(action);
+    }
+
+    note = $("#result p table tbody tr:nth-child(11) td").html()
+
+    summary = "<ul>";
+    for (var i in actions){
+        summary = summary + "<li>" + actions[i] + "</li>";
+    }
+    summary = summary + "</ul>";
+
+    $("#summary").html(summary);
 
     $('#duration').html(result.run_duration + ' seconds')
 
