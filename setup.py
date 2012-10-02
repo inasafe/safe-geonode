@@ -22,7 +22,7 @@ setup(
     license='GPLv3',
     zip_safe=False,
     install_requires=[
-        'python-safe>=0.5.8',       # pip install python-safe
+        'python-safe>=0.5',       # pip install python-safe
         'GeoNode',                  # sudo apt-get install geonode
         'django-leaflet>=0.2.0',    # pip install django-leaflet
         'pygments',                 # pip install pygments
