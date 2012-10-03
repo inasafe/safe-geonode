@@ -15,7 +15,8 @@ $("#reset").click(function() {
     remove_hazard();
     safe_init();
     map.fitWorld();
-    $("#result").css("display", "none"); 
+    $("#result").css("display", "none");
+    $("#calculation").css("display", "none");
     $("#reset").css("display", "none"); 
     $(".barlittle").css("display", "none");
     $("#answermark").css("display", "none");

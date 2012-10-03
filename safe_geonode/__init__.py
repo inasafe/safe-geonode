@@ -1,4 +1,4 @@
-__version__= (0, 2, 6, 'final', 0)
+__version__= (0, 2, 7, 'final', 0)
 
 def get_version():
     from safe_geonode.version import get_version
