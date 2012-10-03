@@ -15,39 +15,38 @@ These are the instructions for installation of Risiko in development mode (for c
 
  #. Install safe-geonode::
 
-    sudo add-apt-repository ppa:geonode/testing
-    sudo apt-get update
-    sudo apt-get install geonode
-
-    source /var/lib/geonode/bin/activate
-    pip install safe-geonode
+        sudo add-apt-repository ppa:geonode/unstable
+        sudo apt-get update
+        sudo apt-get install geonode
+        source /var/lib/geonode/bin/activate
+        pip install safe-geonode
 
  #. Modify your INSTALLED_APPS to include safe_geonode::
 
-    INSTALLED_APPS += ('safe_geonode', 'leaflet',)
+        INSTALLED_APPS += ('safe_geonode', 'leaflet',)
 
  #. Add an entry for geonode_safe in your urls.py::
 
-    urlpatters += ((r'^safe/', include('safe_geonode.urls'),)
+        urlpatters += ((r'^safe/', include('safe_geonode.urls'),)
 
  #. Copy the missing static files, create the new tables in the database and reload the apache web server::
 
-    sudo geonode collectstatic
-    sudo geonode syncdb
-    sudo service apache2 reload
+        sudo geonode collectstatic
+        sudo geonode syncdb
+        sudo service apache2 reload
 
  #. If you need sample data, get it from the inasafe_data repository::
 
-    git clone https://github.com/AIFDR/inasafe_data.git
+        git clone https://github.com/AIFDR/inasafe_data.git
 
  #. And load it using ``safeimportlayers``::
 
-    geonode safeimportlayers inasafe_data/hazard
-    geonode safeimportlayers inasafe_data/exposure
+        geonode safeimportlayers inasafe_data/hazard
+        geonode safeimportlayers inasafe_data/exposure
 
  #. Finally, navigate to the safe interface to try it out:
 
-    http://localhost/safe
+        http://localhost/safe
 
 
 ===========
