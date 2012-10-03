@@ -27,8 +27,19 @@ setup(
         'django-leaflet>=0.2.0',    # pip install django-leaflet
         'pygments',                 # pip install pygments
     ],
-    packages = ['safe_geonode',],
-    package_data = {'safe_geonode': ['safe_geonode/templates/*', 'safe_geonode/locale']},
+    packages = ['safe_geonode',
+                'safe_geonode.tests',
+                'safe_geonode.management',
+                'safe_geonode.management.commands',],
+    package_data = {'safe_geonode': [
+                'safe_geonode/templates/*',
+                'safe_geonode/templates/safe/*',
+                'safe_geonode/static/*',
+                'safe_geonode/static/safe/*',
+                'safe_geonode/static/safe/js',
+                'safe_geonode/static/safe/css',
+                'safe_geonode/static/safe/img',
+                ]},
     scripts = [],
     classifiers = [
    ],
