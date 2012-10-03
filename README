@@ -24,21 +24,11 @@ These are the instructions for installation of Risiko in development mode (for c
 
  #. Modify your INSTALLED_APPS to include safe_geonode::
 
-    INSTALLED_APPS = (
-        'geonode.proxy',
-        'geonode.security',
-        'geonode.catalogue',
-    +
-    +    'safe_geonode',
-    +    'leaflet',
-    )
+    INSTALLED_APPS += ('safe_geonode', 'leaflet',)
 
  #. Add an entry for geonode_safe in your urls.py::
 
-        (r'^catalogue/', include('geonode.catalogue.urls')),
-    +
-    +    (r'^safe/', include('safe_geonode.urls')),
-        )
+    urlpatters += ((r'^safe/', include('safe_geonode.urls'),)
 
  #. Copy the missing static files, create the new tables in the database and reload the apache web server::
 
