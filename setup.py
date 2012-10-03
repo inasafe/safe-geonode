@@ -31,9 +31,9 @@ packages, data_files = [], []
 root_dir = os.path.dirname(__file__)
 if root_dir != '':
     os.chdir(root_dir)
-geonode_dir = 'geonode'
+safe_geonode_dir = 'safe_geonode'
 
-for dirpath, dirnames, filenames in os.walk(geonode_dir):
+for dirpath, dirnames, filenames in os.walk(safe_geonode_dir):
     # Ignore dirnames that start with '.'
     for i, dirname in enumerate(dirnames):
         if dirname.startswith('.'): del dirnames[i]
