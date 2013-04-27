@@ -175,16 +175,15 @@ def calculate(request, save_output=save_file_to_geonode):
         # Calculate result using specified impact function
         msg = ('- Calculating impact using %s' % impact_function_name)
         #logger.info(msg)
+
         impact_file = calculate_impact(layers=layers,
                                            impact_fcn=impact_function)
 
         # Upload result to internal GeoServer
         msg = ('- Uploading impact layer %s' % impact_file.name)
-
-        #logger.info(msg)
         result = save_output(impact_file.filename,
                              title='output_%s' % start.isoformat(),
-                             user=theuser)
+                             user=theuser, overwrite=False)
     except Exception, e:
         # FIXME: Reimplement error saving for calculation.
         # FIXME (Ole): Why should we reimplement?
