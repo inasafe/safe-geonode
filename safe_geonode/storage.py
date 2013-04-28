@@ -500,7 +500,6 @@ def check_layer(layer, full=False):
     #    # Convert any exception to AssertionError for use in retry loop in
     #    # save_file_to_geonode.
     #    raise AssertionError
-
     assert 'id' in metadata
     assert 'title' in metadata
     assert 'layertype' in metadata
@@ -566,7 +565,7 @@ def save_file_to_geonode(filename, user=None, title=None,
     # Empty keyword lines are ignored (as this causes issues downstream)
     keyword_list = []
     keyword_file = basename + '.keywords'
-    kw_title = None
+    kw_title = title if title is not None else None
     kw_summary = None
     kw_table = None
     if os.path.exists(keyword_file):
@@ -583,7 +582,7 @@ def save_file_to_geonode(filename, user=None, title=None,
                 keyword = ':'.join([x.strip() for x in raw_keyword.split(':')])
 
             # Grab title if present
-            if 'title' in keyword:
+            if 'title' in keyword and kw_title is None:
                 kw_title = keyword.split(':')[1]
 
             if 'impact_summary' in keyword:
@@ -632,7 +631,6 @@ def save_file_to_geonode(filename, user=None, title=None,
         title = os.path.split(basename)[-1]
     else:
         title = kw_title
-
     # Attempt to upload the layer
     try:
         # Upload

@@ -177,12 +177,17 @@ def calculate(request, save_output=save_file_to_geonode):
         #logger.info(msg)
 
         impact_file = calculate_impact(layers=layers,
-                                           impact_fcn=impact_function)
+                                       impact_fcn=impact_function)
 
         # Upload result to internal GeoServer
         msg = ('- Uploading impact layer %s' % impact_file.name)
+        # Determine layer title for upload
+        output_kw = impact_file.get_keywords()
+        title = impact_file.get_name() + " using " + output_kw['hazard_title'] + \
+                                         " and " + output_kw['exposure_title']
+
         result = save_output(impact_file.filename,
-                             title='output_%s' % start.isoformat(),
+                             title=title,
                              user=theuser, overwrite=False)
     except Exception, e:
         # FIXME: Reimplement error saving for calculation.
