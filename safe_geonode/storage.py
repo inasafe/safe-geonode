@@ -149,7 +149,7 @@ def get_metadata_from_layer(layer):
             if keyword is not None:
                 for keyword_string in keyword.split(','):
                     if ':' in keyword_string:
-                        key, value = keyword_string.strip().split(':')
+                        key, value = keyword_string.strip().split(':', 1)
                         keyword_dict[key] = value
                     else:
                         keyword_dict[keyword_string] = None
