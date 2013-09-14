@@ -37,11 +37,11 @@ from owslib.wfs import WebFeatureService
 
 from geonode.layers.utils import file_upload, GeoNodeException
 from geonode.layers.models import Layer
-from django.conf import settings
+from geonode.utils import ogc_server_settings
 
 logger = logging.getLogger(__name__)
 
-INTERNAL_SERVER_URL = os.path.join(settings.GEOSERVER_BASE_URL, 'ows')
+INTERNAL_SERVER_URL = ogc_server_settings.ows
 
 def write_raster_data(data, projection, geotransform, filename, keywords=None):
     """Write array to raster file with specified metadata and one data layer
