@@ -1,9 +1,9 @@
 from django.conf.urls.defaults import patterns, url
+from django.views.generic import TemplateView
 
 urlpatterns = patterns('',
                        url(r'^$',
-                           'django.views.generic.simple.direct_to_template',
-                           {'template': 'safe/safe.html'},
+                           TemplateView.as_view(template_name="safe/safe.html"),
                            name='calculator'))
 
 urlpatterns += patterns('safe_geonode.views',
