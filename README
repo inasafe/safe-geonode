@@ -27,7 +27,7 @@ These are the instructions for installation of Risiko in development mode (for c
 
  #. Add an entry for geonode_safe in your urls.py::
 
-        urlpatters += ((r'^safe/', include('safe_geonode.urls'),)
+        urlpatterns += patterns('', (r'^safe/', include('safe_geonode.urls')),)
 
  #. Copy the missing static files, create the new tables in the database and reload the apache web server::
 
