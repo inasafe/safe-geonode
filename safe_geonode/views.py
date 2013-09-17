@@ -43,6 +43,7 @@ from geonode.layers.utils import get_valid_user
 from django.utils import simplejson as json
 from django.http import HttpResponse
 from django.conf import settings
+from geonode.utils import ogc_server_settings
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import cache_page
 
@@ -76,7 +77,7 @@ def get_servers(user):
         # the default geoserver is being defined below.
         pass
 
-    geoservers = [{'url': settings.GEOSERVER_BASE_URL + 'ows',
+    geoservers = [{'url': ogc_server_settings.ows,
                    'name': 'Local Geoserver',
                    'version': '1.0.0', 'id':0}]
     for server in servers:
@@ -215,13 +216,12 @@ def calculate(request, save_output=save_file_to_geonode):
     output['run_date'] = 'new Date("%s")' % calculation.run_date
 
     # FIXME: This should not be needed in an ideal world
-    ows_server_url = settings.GEOSERVER_BASE_URL + 'ows'
+    ows_server_url = ogc_server_settings.ows
     output['ows_server_url'] = ows_server_url
 
     # json.dumps does not like django users
     output['user'] = calculation.user.username
     output['pretty_function_source'] = calculation.pretty_function_source()
-
     geometry = []
     for item in impact_file.geometry:
         geometry.append(item.tolist())
