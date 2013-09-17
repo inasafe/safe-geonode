@@ -223,8 +223,9 @@ def calculate(request, save_output=save_file_to_geonode):
     output['user'] = calculation.user.username
     output['pretty_function_source'] = calculation.pretty_function_source()
     geometry = []
+    # FIXME: this is ignoring inner_rings, it should create a geojson with both
     for item in impact_file.geometry:
-        geometry.append(item.tolist())
+        geometry.append(item.outer_ring.tolist())
 
     raw = { 'name': impact_file.name,
             'geometry': geometry,
