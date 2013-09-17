@@ -21,6 +21,7 @@ $("#reset").click(function() {
     $(".barlittle").css("display", "none");
     $("#answermark").css("display", "none");
     $("#answer").animate({height:"0px"},420);
+    $("#footer").animate({height:"70px"},420)
     $('#functionlist').html('');
     $('#exposurelist').html('');
     $('#hazardlist').html('');
@@ -163,7 +164,7 @@ function received(data) {
 
     actions = []
 
-    for (var i=5; i < 10; i++){
+    for (var i=11; i < 15; i++){
         action = $("#result p table tbody tr:nth-child(" + i +") td").html();
         actions.push(action);
     }
@@ -186,6 +187,7 @@ function received(data) {
 
 function_change = function(r){
     disable_all();
+    $("#footer").animate({height:"370px"},400);
     $("#answer").animate({height:"300px"},400);
     $(".barlittle").css("display", "inline");
     $("#answermark").css("display", "inline");
@@ -298,7 +300,8 @@ function safe_init(){
 
 function safemapInit(map, bounds){
     // Add attribution (to replace, Powered by Leaflet)
-    map.attributionControl.setPrefix('Powered by MapBox Streets and OSM data');
+    //map.attributionControl.setPrefix('Powered by MapBox Streets and OSM data');
+    map.attributionControl.setPrefix('Powered by OSM data and InaSAFE');
 
     // Initialize safe forms
     safe_init();
