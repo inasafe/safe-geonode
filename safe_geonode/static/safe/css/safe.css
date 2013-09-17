@@ -18,6 +18,7 @@
 
 #questionmark {
 	vertical-align: top;
+    height:30px;
 }
 
 #branding{
@@ -51,7 +52,7 @@
     bottom:0px;
 }
 
-footer.footer {
+#footer {
     background: none repeat scroll 0 0 black;
     margin-top: 0px;
     border-top: 5px solid black;
@@ -108,6 +109,7 @@ footer.footer {
 #calculation {
     display:none;
     margin-top: 10px;
+    width: 320px;
 }
 
 #summary li {
