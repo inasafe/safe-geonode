@@ -66,7 +66,7 @@ function add_hazard_layer(layer_name){
 function add_exposure_layer(layer_name){
     layer = layers[layer_name];
     exposure_layer = L.tileLayer(layer.tile_url);
-    exposure_layer.setOpacity(0.5);
+    exposure_layer.setOpacity(0.7);
     exposure_layer.addTo(map);
 }
 
@@ -141,8 +141,14 @@ function received(data) {
         var it = result.raw.data[i];
         var point = result.raw.geometry[i];
         if (it.INUNDATED==true){
-            title = 'OSM Id: ' + it.osm_id;
-            var marker = new L.Marker(new L.LatLng(point[1], point[0]),  { title: title });
+            if(it.NAME!==null){
+                title = 'Name: ' + it.NAME + '\n\r  Type: ' + it.TYPE;
+            }
+            else {
+                title = 'Inundated';
+            }   
+            //TODO Get the centroid of the polygon instead the first vertex
+            var marker = new L.Marker(new L.LatLng(point[0][1], point[0][0]),  { title: title });
             marker.bindPopup(title);
             markers.addLayer(marker);
             inundated ++;
