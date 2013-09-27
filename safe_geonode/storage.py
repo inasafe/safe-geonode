@@ -586,7 +586,7 @@ def save_file_to_geonode(filename, user=None, title=None,
                 kw_title = keyword.split(':')[1]
 
             if 'impact_summary' in keyword:
-                kw_summary = keyword.split(':')[1]
+                kw_summary = ''.join(keyword.split(':')[1:])
                 continue
 
             if 'impact_table' in keyword:
