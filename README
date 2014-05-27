@@ -15,7 +15,7 @@ These are the instructions for installation of Risiko in development mode (for c
 
  #. Install safe-geonode::
 
-        sudo add-apt-repository ppa:geonode/unstable
+        sudo add-apt-repository ppa:geonode/stable
         sudo apt-get update
         sudo apt-get install geonode
         source /var/lib/geonode/bin/activate
